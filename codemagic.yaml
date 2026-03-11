@@ -1,23 +1,42 @@
 # DailyTracker - iOS build for Codemagic
-# リポジトリのルートに Xcode プロジェクト（.xcodeproj）がある想定です。
-# プロジェクト名や Bundle ID は Codemagic の Environment variables で上書きできます。
+# Xcode の Bundle ID（com.dailytracker.app）に合わせてあります。
 
 workflows:
-  ios-dailytracker:
-    name: DailyTracker iOS
+  # 署名なし・シミュレータ用（まずはこれでビルドが通るか確認）
+  ios-simulator:
+    name: DailyTracker iOS (Simulator)
     max_build_duration: 120
     instance_type: mac_mini_m2
-
     environment:
       vars:
-        # あなたの Xcode プロジェクト名に合わせて変更してください
         XCODE_PROJECT: "DailyTracker.xcodeproj"
         XCODE_SCHEME: "DailyTracker"
-        BUNDLE_ID: "com.ryomawasabi.DailyTracker"
-      ios_signing:
-        distribution_type: app_store  # TestFlight 用。ad_hoc の場合は ad_hoc に変更
-        bundle_identifier: "com.ryomawasabi.DailyTracker"
+    scripts:
+      - name: Build for Simulator
+        script: |
+          xcodebuild build \
+            -project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            -scheme "$XCODE_SCHEME" \
+            -sdk iphonesimulator \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -configuration Debug \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
 
+  # TestFlight / 実機用（Codemagic で証明書・プロファイルを設定後に使用）
+  ios-dailytracker:
+    name: DailyTracker iOS (IPA / TestFlight)
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      vars:
+        XCODE_PROJECT: "DailyTracker.xcodeproj"
+        XCODE_SCHEME: "DailyTracker"
+      # Xcode の Bundle ID と一致させること
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: "com.dailytracker.app"
     scripts:
       - name: Set up code signing
         script: xcode-project use-profiles
@@ -26,14 +45,6 @@ workflows:
           xcode-project build-ipa \
             --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
-
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
-
-    # TestFlight にアップロードする場合は、Codemagic で App Store Connect API キーを設定し、
-    # 下の publishing を有効にしてください。
-    # publishing:
-    #   app_store_connect:
-    #     auth: integration
-    #     submit_to_testflight: true
