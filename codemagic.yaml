@@ -1,5 +1,5 @@
 # DailyTracker - iOS build for Codemagic
-# Xcode の Bundle ID（com.dailytracker.app）に合わせてあります。
+# Xcode の Bundle ID（com.ryomawasabi.dailytracker）に合わせてあります。
 
 workflows:
   # 署名なし・シミュレータ用（まずはこれでビルドが通るか確認）
@@ -36,7 +36,7 @@ workflows:
       # Xcode の Bundle ID と一致させること
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: "com.dailytracker.app"
+        bundle_identifier: "com.ryomawasabi.dailytracker"
     scripts:
       - name: Set up code signing
         script: xcode-project use-profiles
@@ -48,3 +48,9 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - "App Store Connect Users"
