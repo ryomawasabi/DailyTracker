@@ -32,6 +32,8 @@ workflows:
     integrations:
       app_store_connect: Codemagic
     environment:
+      groups:
+        - default
       vars:
         XCODE_PROJECT: "DailyTracker.xcodeproj"
         XCODE_SCHEME: "DailyTracker"
