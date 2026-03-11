@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A2B3C4D5E6F7A8B9C0D1E2F /* DailyTrackerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2B3C4D5E6F7A8B9C0D1E2E /* DailyTrackerApp.swift */; };
-		2B3C4D5E6F7A8B9C0D1E2F30 /* DailyRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F2F /* DailyRecord.swift */; };
+		2B3C4D5E6F7A8B9C0D1E2F30 /* DailyRecord.swift in Sourcehs */ = {isa = PBXBuildFile; fileRef = 2B3C4D5E6F7A8B9C0D1E2F2F /* DailyRecord.swift */; };
 		3C4D5E6F7A8B9C0D1E2F3031 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4D5E6F7A8B9C0D1E2F3030 /* RecordViewModel.swift */; };
 		4D5E6F7A8B9C0D1E2F303132 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5E6F7A8B9C0D1E2F303131 /* ContentView.swift */; };
 		5E6F7A8B9C0D1E2F30313233 /* RecordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6F7A8B9C0D1E2F30313232 /* RecordInputView.swift */; };
@@ -343,7 +343,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dailytracker.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryomawasabi.dailytracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.9;
@@ -371,7 +371,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.dailytracker.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ryomawasabi.dailytracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.9;
