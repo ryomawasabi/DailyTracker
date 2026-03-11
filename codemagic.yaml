@@ -1,0 +1,39 @@
+# DailyTracker - iOS build for Codemagic
+# リポジトリのルートに Xcode プロジェクト（.xcodeproj）がある想定です。
+# プロジェクト名や Bundle ID は Codemagic の Environment variables で上書きできます。
+
+workflows:
+  ios-dailytracker:
+    name: DailyTracker iOS
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+
+    environment:
+      vars:
+        # あなたの Xcode プロジェクト名に合わせて変更してください
+        XCODE_PROJECT: "DailyTracker.xcodeproj"
+        XCODE_SCHEME: "DailyTracker"
+        BUNDLE_ID: "com.ryomawasabi.DailyTracker"
+      ios_signing:
+        distribution_type: app_store  # TestFlight 用。ad_hoc の場合は ad_hoc に変更
+        bundle_identifier: "com.ryomawasabi.DailyTracker"
+
+    scripts:
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build IPA
+        script: |
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+
+    # TestFlight にアップロードする場合は、Codemagic で App Store Connect API キーを設定し、
+    # 下の publishing を有効にしてください。
+    # publishing:
+    #   app_store_connect:
+    #     auth: integration
+    #     submit_to_testflight: true
